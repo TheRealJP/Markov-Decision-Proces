@@ -2,8 +2,7 @@ from ai.mdp import MDP
 
 
 class Strategy(object):
-    def __init__(self, evaluation, improvement, discount,
-                 learning_rate):
+    def __init__(self, evaluation, improvement, discount):
         self.__mdp = None
         self.__policy = None
         self.__v = None
@@ -11,7 +10,6 @@ class Strategy(object):
         self.__evaluation = evaluation
         self.__improvement = improvement
         self.__discount = discount
-        self.__learning_rate = learning_rate
 
     @property
     def mdp(self):
@@ -40,10 +38,6 @@ class Strategy(object):
     @property
     def discount(self):
         return self.__discount
-
-    @property
-    def learning_rate(self):
-        return self.__learning_rate
 
     def set(self, n_states, n_actions):
         self.__mdp = MDP(n_states, n_actions, self.discount)

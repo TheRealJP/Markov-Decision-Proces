@@ -11,7 +11,7 @@ class ValueIteration(Evaluation):
 
         while delta > self.precision * r_max * (1 - self.mdp.discount) / self.mdp.discount:
             delta = 0
-            for s in range(len(self.mdp.ptsa)):
+            for s in range(self.mdp.n_states):
                 u = self.v[s]
                 self.v[s] = numpy.amax(self.value_function(s))
                 delta = max(delta, abs(u - self.v[s]))
@@ -19,4 +19,4 @@ class ValueIteration(Evaluation):
     def value_function(self, s):
         return [self.policy[s][a] *
                 sum([self.mdp.ptsa[s][a][ss] * (self.mdp.r[s][a][ss] + self.mdp.discount * self.v[ss])
-                     for ss in range(len(self.mdp.ptsa[s][a]))]) for a in range(len(self.mdp.ptsa[s]))]
+                     for ss in range(self.mdp.n_states)]) for a in range(self.mdp.n_actions)]

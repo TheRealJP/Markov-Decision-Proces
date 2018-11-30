@@ -3,11 +3,21 @@ import numpy as np
 
 class MDP(object):
     def __init__(self, n_states, n_actions, discount):
+        self.__n_states = n_states
+        self.__n_actions = n_actions
         self.__r = np.array([[[.0 for _ in range(n_states)] for _ in range(n_actions)] for _ in range(n_states)])
         self.__nsa = np.array([[0 for _ in range(n_actions)] for _ in range(n_states)])
         self.__ntsa = np.array([[[0 for _ in range(n_states)] for _ in range(n_actions)] for _ in range(n_states)])
         self.__ptsa = np.array([[[.0 for _ in range(n_states)] for _ in range(n_actions)] for _ in range(n_states)])
         self.__discount = discount
+
+    @property
+    def n_states(self):
+        return self.__n_states
+
+    @property
+    def n_actions(self):
+        return self.__n_actions
 
     @property
     def r(self):
