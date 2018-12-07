@@ -2,10 +2,12 @@ import numpy as np
 
 
 class MDP(object):
+    """Markov Decision Process: table of data observed by the Agent."""
     def __init__(self, n_states, n_actions, discount):
+        """Markov Decision Process: table of data observed by the Agent."""
         self.__n_states = n_states
         self.__n_actions = n_actions
-        self.__r = np.array([[[.0 for _ in range(n_states)] for _ in range(n_actions)] for _ in range(n_states)])
+        self.__r = np.array([[.0 for _ in range(n_actions)] for _ in range(n_states)])
         self.__nsa = np.array([[0 for _ in range(n_actions)] for _ in range(n_states)])
         self.__ntsa = np.array([[[0 for _ in range(n_states)] for _ in range(n_actions)] for _ in range(n_states)])
         self.__ptsa = np.array([[[.0 for _ in range(n_states)] for _ in range(n_actions)] for _ in range(n_states)])
@@ -13,41 +15,49 @@ class MDP(object):
 
     @property
     def n_states(self):
+        """Returns the amount of states in the Environment."""
         return self.__n_states
 
     @property
     def n_actions(self):
+        """Returns the amount of actions in the Environment."""
         return self.__n_actions
 
     @property
     def r(self):
+        """Returns the list of rewards per state-action in the Environment."""
         return self.__r
 
     @property
     def nsa(self):
+        """Returns the state-action frequencies."""
         return self.__nsa
 
     @property
     def ntsa(self):
+        """Returns the state-action-nextstate frequencies."""
         return self.__ntsa
 
     @property
     def ptsa(self):
+        """Returns the state-action-nextstate possibilities."""
         return self.__ptsa
 
     @property
     def discount(self):
+        """Returns the return discount."""
         return self.__discount
 
     def update(self, percept):
-        s = percept.cur_state
+        """Update the MDP table based on the given Percept."""
+        s = percept.prev_state
         a = percept.action
-        ss = percept.next_state
+        s_ = percept.new_state
 
-        self.r[s][a][ss] = percept.reward
+        self.r[s][a] = percept.reward
         self.nsa[s][a] += 1
-        self.ntsa[s][a][ss] += 1
-        self.ptsa[s][a][ss] = 1.0 * self.ntsa[s][a][ss] / self.nsa[s][a]
+        self.ntsa[s][a][s_] += 1
+        self.ptsa[s][a][s_] = 1.0 * self.ntsa[s][a][s_] / self.nsa[s][a]
 
     def __str__(self):
         f = '| {0:>2} | {1:>2} | {2:>2} | {3:>4.4} | {4:>4.4} |\n'

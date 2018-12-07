@@ -9,17 +9,17 @@ from ai.strategy import Strategy
 
 
 def run():
-    precision = .01
-    discount = .9
+    precision = .1E-9
+    discount = .6
     learning_rate = .75
-    decay_rate = 25
+    decay_rate = .1
     decay = 1.
     decay_max = 1.
     decay_min = .01
     episodes = 500
 
     env = OpenAIGym('FrozenLake-v0')
-    evaluation = MonteCarlo(precision, learning_rate)
+    evaluation = QLearning(precision, learning_rate)
     improvement = ImprovementWithV(decay_rate, decay, decay_max, decay_min)
     strat = Strategy(evaluation, improvement, discount)
     agent = Agent(env, strat)

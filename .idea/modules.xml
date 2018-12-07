@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ai-robotics.iml" filepath="$PROJECT_DIR$/.idea/ai-robotics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/skynet_alpha.iml" filepath="$PROJECT_DIR$/.idea/skynet_alpha.iml" />
     </modules>
   </component>
 </project>
