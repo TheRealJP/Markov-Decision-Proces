@@ -66,3 +66,11 @@ class Agent(object):
             for a in range(len(self.policy[s])):
                 output += f.format(s, a, round(self.policy[s][a], 2))
         return output
+
+    def __repr__(self):
+        f = '{0};{1};{2}\n'
+        output = ''
+        for s in range(len(self.policy)):
+            for a in range(len(self.policy[s])):
+                output += f.format(s, a, round(self.policy[s][a], 2))
+        return output

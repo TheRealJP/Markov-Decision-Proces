@@ -1,11 +1,11 @@
 class Percept:
     """The information given by the Environment upon taking an action."""
-    def __init__(self, cur_state, action, reward, next_state, final):
+    def __init__(self, prev_state, action, reward, new_state, final):
         """The information given by the Environment upon taking an action."""
-        self.__s = cur_state
+        self.__s = prev_state
         self.__a = action
         self.__r = reward
-        self.__s_ = next_state
+        self.__s_ = new_state
         self.__final = final
 
     @property

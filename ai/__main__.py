@@ -5,6 +5,7 @@ from ai.evaluations.n_step_q_learning import NStepQLearning
 from ai.evaluations.q_learning import QLearning
 from ai.evaluations.value_iteration import ValueIteration
 from ai.improvements.with_v import ImprovementWithV
+from ai.policy_writers.cmd_writer import CmdWriter
 from ai.strategy import Strategy
 
 
@@ -24,7 +25,7 @@ def run():
     strat = Strategy(evaluation, improvement, discount)
     agent = Agent(env, strat)
     agent.learn(episodes)
-    print agent
+    CmdWriter.write(agent)
 
 
 if __name__ == '__main__':
