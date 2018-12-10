@@ -1,4 +1,5 @@
 import Tkinter
+import threading
 from numpy import argmax
 
 from ai.policy_writer import PolicyWriter
@@ -7,6 +8,11 @@ from ai.policy_writer import PolicyWriter
 class VisualWriter(PolicyWriter):
     def __init__(self):
         pass
+
+    def run(self, policy):
+        t = threading.Thread(target=self.write(policy))
+        t.start()
+        t.join()
 
     @classmethod
     def write(cls, policy):

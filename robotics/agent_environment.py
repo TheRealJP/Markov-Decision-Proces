@@ -13,13 +13,11 @@ class agent_environment:
 
     """returns next action in the optimal path"""
 
-    def action_to_take(self):
-        if self.current_state + 1 <= len(self.optimal_path) - 1:  # assure that there still are next states
-            # self.current_state = self.next_state
-            self.current_state = self.current_state + 1
-            return int(next(iter(self.optimal_path), self.current_state).action)
-            # self.optimal_path[self.next_state]
-            # return
+    def action_to_take(self, state):
+        self.current_state = state
+
+        if self.current_state <= len(self.optimal_path) - 1:  # assure that there still are next states
+            return int(self.optimal_path[state].action)
 
     """returns radians"""
 
@@ -42,7 +40,7 @@ class agent_environment:
         else:
             return 0
 
-        return target  # * math.pi / 180
+        return target  # * math.pi / 180 #uncomment to turn on radians
 
     """
     opencv gives back boolean and tells robot to stop
