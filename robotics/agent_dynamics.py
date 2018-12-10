@@ -101,6 +101,7 @@ class Noodstop:
             self.__move_cmd.angular.z = self.__angular_speed
             self.turn()
 
+    #    signal that you have arrived (something like stopped its ticks)
     def turn(self):
         if self.__current_tick < 1:
             angle = pi / 2

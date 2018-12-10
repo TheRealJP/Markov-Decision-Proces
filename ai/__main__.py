@@ -1,25 +1,21 @@
 from ai.agent import Agent
 from ai.environments.openai import OpenAIGym
-from ai.evaluations.n_step_q_learning import NStepQLearning
 from ai.evaluations.q_learning import QLearning
-from ai.evaluations.value_iteration import ValueIteration
 from ai.improvements.with_q import ImprovementWithQ
-from ai.improvements.with_v import ImprovementWithV
 from ai.policy_writers.cmd_writer import CmdWriter
 from ai.policy_writers.csv_writer import CsvWriter
 from ai.policy_writers.visual_writer import VisualWriter
 from ai.strategy import Strategy
-from ai.policy_writer import PolicyWriter
 
 
 def run():
     precision = .1E-9
     discount = .99
-    learning_rate = .75
+    learning_rate = .8
     decay_rate = 0.1E-3
     decay = 1.
     decay_max = 1.
-    decay_min = .01
+    decay_min = .1E-2
     episodes = 10000
 
     env = OpenAIGym('FrozenLake-v0')

@@ -1,46 +1,63 @@
-import numpy as np
 import csv
-
 from ai.policy import Policy
 
 
 class agent_environment:
-    def __init__(self):
-        self.policy = []
-        self.current_state = 0
-        self.reward_reached = False
-        # double array aanmaken
-        self.static_map = np.array([[.0 for _ in range(4)] for _ in range(4)])
-        # map vullen met xy "coordinaten/posities"
 
-    """
-    loop trough policy iteration 
-    get next state => "choose_next_state(self)"
-    let it execute => "action_to_take(self)"
-    signal that you have arrived (something like stopped its ticks)
-    if color is different then its a reward
-    """
+    def __init__(self):
+        self.optimal_path = []
+        self.current_state = 0
+        self.next_state = 0
+        self.reward_reached = False
+        self.direction_facing = 2  # the robot front is point to this direction
+
+    """returns next action in the optimal path"""
 
     def action_to_take(self):
-        return NotImplementedError
+        if self.current_state + 1 <= len(self.optimal_path) - 1:  # assure that there still are next states
+            # self.current_state = self.next_state
+            self.current_state = self.current_state + 1
+            return int(next(iter(self.optimal_path), self.current_state).action)
+            # self.optimal_path[self.next_state]
+            # return
 
-    def reached_reward(self, ):
-        self.reward_reached = True
+    """returns radians"""
 
-        """"""
+    def next_rotation_radians(self, new_direction):
+        global target
+        pos_rotation = False
+        amount_of_turns = new_direction - self.direction_facing
 
-    def choose_next_state(self):
-        self.next_state = self.current_state
+        # change to positive turn
+        if amount_of_turns > 0:
+            pos_rotation = True
 
-    def __translate_location_to_2D(self):
-        return 0
+        abs_aot = abs(amount_of_turns)
+        if abs_aot is 1:
+            target = 90 if pos_rotation else -90
+        elif abs_aot is 2:
+            target = 180 if pos_rotation else -180
+        elif abs_aot is 3:
+            target = 270 if pos_rotation else -270
+        else:
+            return 0
 
-    def __translate_location_to_1D(self):
-        return 0
+        return target  # * math.pi / 180
 
-    def fill_policy(self):
-        with open('../policy.csv', 'r') as f:
+    """
+    opencv gives back boolean and tells robot to stop
+    if opencv sees the endgoal AND the next action is towards the last state then stop
+    """
+
+    def has_reached_reward(self, reward_reached):
+        self.reward_reached = reward_reached and self.next_state == len(self.optimal_path) - 1
+
+    """extract the optimal path"""
+
+    def fill_optimal_path(self):
+        with open('../voorbeeld_policy.csv', 'r') as f:
             reader = csv.reader(f)
             for row in reader:
-                p = Policy(row[0], row[1], row[2])
-                self.policy.append(p)
+                if float(row[2]) > 0.5:
+                    p = Policy(row[0], row[1], row[2])
+                    self.optimal_path.append(p)
