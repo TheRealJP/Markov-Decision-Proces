@@ -1,4 +1,4 @@
 class PolicyWriter:
-    @staticmethod
-    def write(policy):
+    @classmethod
+    def write(cls, policy):
         raise NotImplementedError()
