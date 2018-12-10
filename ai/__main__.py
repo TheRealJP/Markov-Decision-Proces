@@ -7,7 +7,7 @@ from ai.evaluations.value_iteration import ValueIteration
 from ai.improvements.with_v import ImprovementWithV
 from ai.policy_writers.cmd_writer import CmdWriter
 from ai.strategy import Strategy
-
+from ai.policy_writer import PolicyWriter
 
 def run():
     precision = .1E-9
@@ -26,6 +26,7 @@ def run():
     agent = Agent(env, strat)
     agent.learn(episodes)
     CmdWriter.write(agent)
+    PolicyWriter.write(repr(agent))
 
 
 if __name__ == '__main__':

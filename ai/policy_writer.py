@@ -1,4 +1,6 @@
 class PolicyWriter:
     @staticmethod
     def write(policy):
-        raise NotImplementedError()
+        with open("../policy.csv", "w") as csv_file:
+            for line in policy:
+                csv_file.write(line)

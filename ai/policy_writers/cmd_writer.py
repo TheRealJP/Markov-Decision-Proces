@@ -7,4 +7,4 @@ class CmdWriter(PolicyWriter):
 
     @staticmethod
     def write(agent):
-        print agent
+        print(agent)
