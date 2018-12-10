@@ -1,16 +1,17 @@
 import numpy as np
+import csv
+
+from ai.policy import Policy
 
 
 class agent_environment:
     def __init__(self):
+        self.policy = []
+        self.current_state = 0
         self.reward_reached = False
         # double array aanmaken
         self.static_map = np.array([[.0 for _ in range(4)] for _ in range(4)])
         # map vullen met xy "coordinaten/posities"
-
-    def current_location(self, ):
-        self.current_state = 0
-        return NotImplementedError
 
     """
     loop trough policy iteration 
@@ -23,7 +24,7 @@ class agent_environment:
     def action_to_take(self):
         return NotImplementedError
 
-    def reached_reward(self):
+    def reached_reward(self, ):
         self.reward_reached = True
 
         """"""
@@ -36,3 +37,10 @@ class agent_environment:
 
     def __translate_location_to_1D(self):
         return 0
+
+    def fill_policy(self):
+        with open('../policy.csv', 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                p = Policy(row[0], row[1], row[2])
+                self.policy.append(p)
