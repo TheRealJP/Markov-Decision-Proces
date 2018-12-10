@@ -31,7 +31,7 @@ class Agent(object):
         """Plays in the environment for n_episodes
         and improves his policy."""
         for n in range(n_episodes):
-            print 'Episode ', n
+            print('Episode ', n)
             state = self.environment.reset()
             final = False
             while not final:
