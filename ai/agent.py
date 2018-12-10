@@ -7,7 +7,8 @@ class Agent(object):
         best possible actions by applying its given learning strategy."""
         self.__environment = environment
         self.__strategy = strategy
-        self.__policy = [[.0 for _ in range(self.environment.n_actions)] for _ in range(self.environment.n_states)]
+        self.__policy = [[1. / self.environment.n_actions for _ in range(self.environment.n_actions)]
+                         for _ in range(self.environment.n_states)]
 
         # Set strategy properties
         self.__strategy.set(environment.n_states, environment.n_actions)
@@ -48,29 +49,10 @@ class Agent(object):
         prev = 0
         a = 0
 
-        if self.strategy.improvement.decay >= rnd:
-            rnd = random()
-            for p in self.policy[s]:
-                if p + prev >= rnd:
-                    return a
-                a += 1
-                prev += p
+        for p in self.policy[s]:
+            if p + prev >= rnd:
+                return a
+            a += 1
+            prev += p
 
-        return int(random() * self.environment.n_actions)
-
-    def __str__(self):
-        f = '| {0:>3} | {1:>3} | {2:<4.2} |\n'
-        output = f.format('S', 'A', 'Pi') + f.format('=', '=', '=').replace(' ', '=')
-
-        for s in range(len(self.policy)):
-            for a in range(len(self.policy[s])):
-                output += f.format(s, a, round(self.policy[s][a], 2))
-        return output
-
-    def __repr__(self):
-        f = '{0};{1};{2}\n'
-        output = ''
-        for s in range(len(self.policy)):
-            for a in range(len(self.policy[s])):
-                output += f.format(s, a, round(self.policy[s][a], 2))
-        return output
+        return a - 1

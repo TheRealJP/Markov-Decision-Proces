@@ -1,4 +1,4 @@
-import numpy
+from numpy import amax
 
 from ai.evaluation import Evaluation
 
@@ -13,8 +13,8 @@ class QLearning(Evaluation):
         a = percept.action
         s_ = percept.new_state
         self.q[s][a] += self.learning_rate * (self.mdp.r[s][a] + self.mdp.discount *
-                                              numpy.amax(
-                                                  [self.q[s][a] - self.q[s_][aa] for aa in range(self.mdp.n_actions)]))
+                                              amax(
+                                                  [self.q[s_][a_] - self.q[s][a] for a_ in range(self.mdp.n_actions)]))
 
         for s in range(self.mdp.n_states):
-            self.v[s] = numpy.amax(self.q[s])
+            self.v[s] = amax(self.q[s])

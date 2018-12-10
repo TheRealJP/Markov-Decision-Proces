@@ -1,3 +1,4 @@
+from numpy import argmax
 from sys import maxsize
 
 from ai.improvement import Improvement
@@ -9,16 +10,11 @@ class ImprovementWithQ(Improvement):
         super(ImprovementWithQ, self).__init__(decay_rate, decay, decay_max, decay_min)
 
     def improve(self):
-        for s in range(len(self.mdp.ptsa)):
-            a_star = maxsize
+        for s in range(self.mdp.n_states):
+            a_star = argmax([self.q[s][a] for a in range(self.mdp.n_actions)])
 
-            for a in range(len(self.mdp.ptsa[s])):
-                sum_a = self.q[s][a]
-                if a_star < sum_a:
-                    a_star = a
-
-            for a in range(len(self.mdp.ptsa[s])):
-                self.policy[s][a] = 1.0 * self.decay / len(self.mdp.ptsa[s])
+            for a in range(self.mdp.n_actions):
+                self.policy[s][a] = 1. * self.decay / self.mdp.n_actions
 
                 if a_star == a:
                     self.policy[s][a] += 1 - self.decay
