@@ -26,6 +26,7 @@ def run():
     agent.learn(episodes)
 
     CmdWriter.write(agent.policy)
+
     VisualWriter.write(agent.policy)
     CsvWriter.write(agent.policy)
 

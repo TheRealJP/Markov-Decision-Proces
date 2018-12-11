@@ -5,6 +5,7 @@ from ai.policy import Policy
 class agent_environment:
 
     def __init__(self):
+        self.optimal_path_policy_objects = []
         self.optimal_path = []
         self.current_state = 0
         self.next_state = 0
@@ -16,12 +17,15 @@ class agent_environment:
     def action_to_take(self, state):
         self.current_state = state
 
-        if self.current_state <= len(self.optimal_path) - 1:  # assure that there still are next states
-            return int(self.optimal_path[state].action)
+        if self.current_state <= len(self.optimal_path_policy_objects) - 1:  # assure that there still are next states
+            return int(self.optimal_path_policy_objects[state].action)
 
     """returns radians"""
 
     def next_rotation_radians(self, new_direction):
+        if self.current_state >= len(self.optimal_path_policy_objects) - 1:
+            return 0  # assure that there still are next states
+
         global target
         pos_rotation = False
         amount_of_turns = new_direction - self.direction_facing
@@ -57,5 +61,7 @@ class agent_environment:
             reader = csv.reader(f)
             for row in reader:
                 if float(row[2]) > 0.5:
+                    self.optimal_path.append([float(row[0]), float(row[1]), float(row[2])])
+
                     p = Policy(row[0], row[1], row[2])
-                    self.optimal_path.append(p)
+                    self.optimal_path_policy_objects.append(p)
