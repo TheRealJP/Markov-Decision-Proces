@@ -12,39 +12,49 @@ class agent_environment:
         self.reward_reached = False
         self.direction_facing = 2  # the robot front is point to this direction
 
-    """returns next action in the optimal path"""
+    """
+    robot puts a step in the given action/direction
+    """
 
-    def action_to_take(self, state):
-        self.current_state = state
+    def step(self, action):
+        # todo: stop when reward boolean is true
+        # check for limit
+        if self.current_state <= len(self.optimal_path_policy_objects) - 1:
+            # get the next state & action by moving the robot
+            next_state, next_action = self.move_robot(action)
 
-        if self.current_state <= len(self.optimal_path_policy_objects) - 1:  # assure that there still are next states
-            return int(self.optimal_path_policy_objects[state].action)
+            # update state
+            self.current_state = next_state
+            # set the action as the current direction of the front of the robot
+            self.direction_facing = next_action
+
+            return next_action
 
     """returns radians"""
 
     def next_rotation_radians(self, new_direction):
+        # assure that there still are next states
         if self.current_state >= len(self.optimal_path_policy_objects) - 1:
-            return 0  # assure that there still are next states
+            return 0
 
-        global target
-        pos_rotation = False
+        pos_rotation = False  # negative rotation
         amount_of_turns = new_direction - self.direction_facing
 
         # change to positive turn
         if amount_of_turns > 0:
-            pos_rotation = True
+            pos_rotation = True  # positive rotation
 
+        global target_degrees
         abs_aot = abs(amount_of_turns)
         if abs_aot is 1:
-            target = 90 if pos_rotation else -90
+            target_degrees = 90 if pos_rotation else -90
         elif abs_aot is 2:
-            target = 180 if pos_rotation else -180
+            target_degrees = 180 if pos_rotation else -180
         elif abs_aot is 3:
-            target = 270 if pos_rotation else -270
+            target_degrees = 270 if pos_rotation else -270
         else:
             return 0
-
-        return target  # * math.pi / 180 #uncomment to turn on radians
+        return target_degrees  # * math.pi / 180 #todo: uncomment to turn on radians
 
     """
     opencv gives back boolean and tells robot to stop
@@ -65,3 +75,9 @@ class agent_environment:
 
                     p = Policy(row[0], row[1], row[2])
                     self.optimal_path_policy_objects.append(p)
+
+    """move in the optimal path array"""
+
+    def move_robot(self, direction):
+        if self.current_state >= len(self.optimal_path_policy_objects) - 1:
+            return 0
