@@ -21,13 +21,11 @@ class AgentEnvironment:
     """
 
     def step(self, action):
-        # todo: stop when reward boolean is true
-        # check for limit
+        # check for limit, todo: stop when reward boolean is true
         if self.current_state <= (len(self.optimal_path) - 1):
             # get the next state & action by moving the robot
             next_action, next_state = self.move_robot(action)
             self.current_state = next_state  # update state
-            self.direction_facing = next_action  # set the action as the current direction of the front of the robot
 
             return int(next_action)
 
@@ -37,6 +35,7 @@ class AgentEnvironment:
         if self.current_state >= len(self.optimal_path) - 1:
             return 0, 0
 
+        # "reposition" index/status of robot
         if direction == 0:  # left
             index = self.current_state - 1
         elif direction == 1:  # down
@@ -47,6 +46,9 @@ class AgentEnvironment:
             index = self.current_state - self.row
         else:
             index = 0
+
+        # set the action as the current direction of the front of the robot
+        # self.direction_facing = direction
 
         # get the action and state at the next position
         # if its smaller
@@ -62,15 +64,17 @@ class AgentEnvironment:
             return 0
 
         pos_rotation = False  # negative rotation
-        amount_of_turns = self.direction_facing - new_direction
+        amount_of_turns = new_direction - self.direction_facing
+
         if amount_of_turns is 0:
             return 0
-
-        self.direction_facing = new_direction
 
         # change to positive rotation
         if amount_of_turns > 0:
             pos_rotation = True  # positive rotation
+
+        # if self.current_state is not 0:
+        self.direction_facing = new_direction
 
         global target_degrees
         abs_aot = abs(amount_of_turns)

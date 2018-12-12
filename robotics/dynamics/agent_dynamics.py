@@ -90,6 +90,7 @@ class Robot:
 
         # Move forward if possible
         if move and not self.__turning:
+
             rospy.loginfo('move forward')
             self.__move_cmd.angular.z = 0
             self.__move_cmd.linear.x = self.__linear_speed

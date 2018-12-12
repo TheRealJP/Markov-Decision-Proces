@@ -5,29 +5,36 @@ from robotics.policy_writers.visual_writer_optimal_path_csv import VisualWriterO
 
 
 def print_env_sim(a, rr, df, cs):
-    print 'next action: ', a, \
-        '\tturning this much: {:5} '.format(rr), \
-        '\tcurrent direction:', df, \
-        '\tcurrent state:', cs
+    print'current direction:', df, \
+        '\tcurrent state: {:5}'.format(cs), \
+        '\tnext direction: ', a, \
+        '\tturning this much: ', rr
 
 
 def run():  # todo: implementing this into agent_dynamics class
-    env = AgentEnvironment(4, 4, 15)  # row, column, state where treasure is located
+    # row, column, state where treasure is located
+    env = AgentEnvironment(4, 4, 15)
     env.fill_optimal_path()
 
+    # starting setup
     action = int(env.optimal_path[0].action)  # first action to start off with
     rot_radians = env.rotate(int(action))
     print_env_sim(action, rot_radians, env.direction_facing, env.current_state)
+    # env.direction_facing = action
 
     for _ in range(len(env.optimal_path)):
         if env.current_state is env.treasure_state:  # todo: replace with opencv bool
             break
-        # get the next action and state in the optimal path,
-        next_action = env.step(action)
+
         # get the amount of radians
         rot_radians = env.rotate(int(action))
-        action = next_action  # update action with next action
-        print_env_sim(action, rot_radians, env.direction_facing, env.current_state)
+        # get the next action and state in the optimal path,
+        next_action = env.step(action)
+
+        print_env_sim(next_action, rot_radians, env.direction_facing, env.current_state)
+
+        # update action with next action
+        action = next_action
 
     # show optimal path from csv file in gui
     policies = []
