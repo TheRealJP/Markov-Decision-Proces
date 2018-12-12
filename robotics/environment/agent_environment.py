@@ -1,5 +1,7 @@
 import csv
 
+import numpy
+
 from ai.policy import Policy
 
 
@@ -9,9 +11,9 @@ class AgentEnvironment:
         self.row = row
         self.column = column
         self.optimal_path = []
-        self.optimal_path_2D = [[None for _ in range(column)] for _ in range(row)]  # replace with incoming parameters
+        # self.optimal_path_2D = numpy.empty((row, column))
+
         self.current_state = 0
-        self.next_state = 0
         self.reward_reached = False
         self.direction_facing = 2  # the robot front is point to this direction
 
@@ -33,7 +35,7 @@ class AgentEnvironment:
 
     """returns radians"""
 
-    def next_rotation_radians(self, new_direction):
+    def rotate(self, new_direction):
         # assure that there still are next states
         if self.current_state >= len(self.optimal_path) - 1:
             return 0
@@ -63,13 +65,12 @@ class AgentEnvironment:
     """
 
     def has_reached_reward(self, reward_reached):
-        self.reward_reached = reward_reached and self.next_state == len(self.optimal_path) - 1
+        # self.reward_reached = reward_reached and self.next_state == len(self.optimal_path) - 1
+        return reward_reached
 
     """extract the optimal path"""
 
     def fill_optimal_path(self):
-        last_row = 0
-
         with open('../voorbeeld_policy.csv', 'r') as f:
             reader = csv.reader(f)
             for r in reader:
@@ -77,26 +78,20 @@ class AgentEnvironment:
                     p = Policy(r[0], r[1], r[2])
                     self.optimal_path.append(p)
 
-            for r in range(self.row):
-                for c in range(self.column):
-                    self.optimal_path_2D[r].append(self.optimal_path[last_row + c])
-            last_row += self.row
-
     """move in the optimal path array"""
 
     def move_robot(self, direction):
-
         if self.current_state >= len(self.optimal_path) - 1:
             return 0, 0
 
         if direction == 0:  # left
             index = self.current_state - 1
         elif direction == 1:  # down
-            index = self.current_state + len(self.optimal_path_2D[0])  # length of row
-        elif direction == 2:  # righ
+            index = self.current_state + len(self.row)  # length of row
+        elif direction == 2:  # right
             index = self.current_state + 1
         elif direction == 3:  # up
-            index = self.current_state - len(self.optimal_path_2D[0])
+            index = self.current_state - len(self.row)
         else:
             index = 0
 

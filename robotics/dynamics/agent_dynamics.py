@@ -13,11 +13,7 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
 
-"""
--90 en 90 graden draaien of altijd 
-robot kijkt naar links, robot moet naar rechts --> 180 graden draaien --> huidige positie robot
-
-"""
+from robotics.environment.agent_environment import AgentEnvironment
 
 
 def dev(x, l):
@@ -55,11 +51,6 @@ def avg_minimum(l, n_min):
     return dist
 
 
-class RobotData:
-    def __init__(self):
-        pass
-
-
 class Robot:
     def __init__(self, topic, threshold, linear_speed, angular_speed, rate):
         # Init
@@ -88,6 +79,10 @@ class Robot:
         rospy.loginfo('spin')
         rospy.spin()
 
+        # Direction & Rotationdata
+        self.robot_env = AgentEnvironment(4, 4)
+        self.robot_env.fill_optimal_path()
+
     def set_cmd_vel(self, msg):
         rospy.loginfo('Turning: %s; Ticks: %s / %s',
                       str(self.__turning), str(self.__current_tick), str(self.__ticks))
@@ -109,7 +104,7 @@ class Robot:
     #    signal that you have arrived (something like stopped its ticks)
     def turn(self):
         if self.__current_tick < 1:
-            angle = pi / 2
+            angle = pi / 2  # todo replace with radians
             rospy.loginfo('turning %s radians (90 degrees)', angle)
             angular_duration = angle / self.__angular_speed
             self.__ticks = int(angular_duration * self.__rate)
