@@ -55,7 +55,12 @@ def avg_minimum(l, n_min):
     return dist
 
 
-class Noodstop:
+class RobotData:
+    def __init__(self):
+        pass
+
+
+class Robot:
     def __init__(self, topic, threshold, linear_speed, angular_speed, rate):
         # Init
         rospy.init_node('Noodstop', anonymous=False)
@@ -132,6 +137,6 @@ class Noodstop:
 
 if __name__ == '__main__':
     try:
-        roomba = Noodstop('/mobile_base/commands/velocity', .5, .2, .3, 10)
+        roomba = Robot('/mobile_base/commands/velocity', .5, .2, .3, 10)
     except:
         rospy.loginfo('Roomba node terminated.')
