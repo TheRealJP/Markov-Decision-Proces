@@ -5,7 +5,11 @@ from ai.environment import Environment
 
 class TurtleBot(Environment):
     def __init__(self, moving_strategy, turning_strategy):
-        """The TurtleBot environment. The agent learns to solve a maze."""
+        """
+        The TurtleBot environment. The agent learns to solve a maze.
+        :param moving_strategy: the way the robot moves forward
+        :param turning_strategy: the way the robot turns
+        """
         self.__n_states = 0
         self.__n_actions = 4
         self.__current_state = 0
