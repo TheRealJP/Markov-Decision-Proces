@@ -4,6 +4,9 @@ from robotics.policy_writers.visual_writer_optimal_path_csv import VisualWriterO
 """ test implementation for the repositioning & rotation of our robot"""
 
 
+# roslaunch turtlebot_gazebo turtlebot_world.launch world_
+# file:=/home/jonathanpeers/jonathanp627@gmail.com/Informatica/INF3/Robotics_AI_Project_2018-2019/sim.world
+
 def print_env_sim(a, rr, df, cs):
     print'current direction:', df, \
         '\tcurrent state: {:5}'.format(cs), \
@@ -30,7 +33,6 @@ def run():  # todo: implementing this into agent_dynamics class
         rot_radians = env.rotate(int(action))
         # get the next action and state in the optimal path,
         next_action = env.step(action)
-
         print_env_sim(next_action, rot_radians, env.direction_facing, env.current_state)
 
         # update action with next action

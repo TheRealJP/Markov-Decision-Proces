@@ -54,7 +54,7 @@ def avg_minimum(l, n_min):
 class Robot:
     def __init__(self, topic, threshold, linear_speed, angular_speed, rate):
         # Init
-        rospy.init_node('Noodstop', anonymous=False)
+        rospy.init_node('AI_Robot', anonymous=False)
         rospy.on_shutdown(self.shutdown)
 
         self.__cmd_vel = rospy.Publisher(topic, Twist, queue_size=1)
@@ -80,8 +80,9 @@ class Robot:
         rospy.spin()
 
         # Direction & Rotationdata
-        self.robot_env = AgentEnvironment(4, 4)
+        self.robot_env = AgentEnvironment(4, 4, 15)
         self.robot_env.fill_optimal_path()
+        self.action = int(self.robot_env.direction_facing)  # first action
 
     def set_cmd_vel(self, msg):
         rospy.loginfo('Turning: %s; Ticks: %s / %s',
@@ -91,10 +92,16 @@ class Robot:
         # Move forward if possible
         if move and not self.__turning:
 
+            # todo: odometry one meter forward
             rospy.loginfo('move forward')
             self.__move_cmd.angular.z = 0
             self.__move_cmd.linear.x = self.__linear_speed
+            self.__ticks = 5
             self.__cmd_vel.publish(self.__move_cmd)
+
+            # update to the next action
+            self.action = self.robot_env.step(self.action)
+
         # Else turn
         else:
             rospy.loginfo('turn')
@@ -105,7 +112,10 @@ class Robot:
     #    signal that you have arrived (something like stopped its ticks)
     def turn(self):
         if self.__current_tick < 1:
-            angle = pi / 2  # todo replace with radians
+
+            # returns radians to be turned with a given action
+            angle = self.robot_env.rotate(self.action)
+
             rospy.loginfo('turning %s radians (90 degrees)', angle)
             angular_duration = angle / self.__angular_speed
             self.__ticks = int(angular_duration * self.__rate)

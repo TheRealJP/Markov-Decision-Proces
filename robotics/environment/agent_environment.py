@@ -1,4 +1,5 @@
 import csv
+import math
 
 import numpy
 
@@ -15,23 +16,28 @@ class AgentEnvironment:
         self.optimal_path = []
         self.direction_facing = 2  # starting direction of robot
 
-    """
-    robot puts a step in the given action/direction
-    change state and face_direction
-    """
-
     def step(self, action):
-        # check for limit, todo: stop when reward boolean is true
-        if self.current_state <= (len(self.optimal_path) - 1):
+        """
+        robot puts a step in the given action/direction
+        change state and face_direction
+        :param action: current action for the robot to take
+        :return: next_action
+        """
+        # todo: replace with opencv bool:
+        if self.current_state <= (len(self.optimal_path) - 1) \
+                or self.current_state is self.treasure_state:
             # get the next state & action by moving the robot
             next_action, next_state = self.move_robot(action)
             self.current_state = next_state  # update state
 
             return int(next_action)
 
-    """move in the optimal path array"""
-
     def move_robot(self, direction):
+        """
+        move in the optimal path array
+        :param direction:
+        :return: next_action,next_state
+        """
         if self.current_state >= len(self.optimal_path) - 1:
             return 0, 0
 
@@ -56,9 +62,13 @@ class AgentEnvironment:
         next_state = self.optimal_path[index if index >= 0 else self.current_state].state
         return int(next_action), int(next_state)
 
-    """returns radians"""
-
     def rotate(self, new_direction):
+        """
+        returns amount of radians to turn
+        :param new_direction: the next direction the robot will face
+        :return: degrees in radians
+        """
+
         # assure that there still are next states
         if self.current_state >= len(self.optimal_path) - 1:
             return 0
@@ -85,20 +95,23 @@ class AgentEnvironment:
         elif abs_aot is 3:
             target_degrees = 270 if pos_rotation else -270
 
-        return target_degrees  # * math.pi / 180 #todo: uncomment to turn on radians
-
-    """
-    opencv gives back boolean and tells robot to stop
-    if opencv sees the endgoal AND the next action is towards the last state then stop
-    """
+        return target_degrees * math.pi / 180
 
     def has_reached_reward(self, reward_reached):
+        """
+        opencv gives back boolean and tells robot to stop
+        if opencv sees the endgoal AND the next action is towards the last state then stop
+        :param reward_reached:
+        :return:
+        """
         # self.reward_reached = reward_reached and self.next_state == len(self.optimal_path) - 1
         return reward_reached
 
-    """extract the optimal path"""
-
     def fill_optimal_path(self):
+        """
+        extract the optimal path
+        :return:
+        """
         with open('../voorbeeld_policy.csv', 'r') as f:
             reader = csv.reader(f)
             for file_row in reader:
