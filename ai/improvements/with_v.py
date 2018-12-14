@@ -5,7 +5,13 @@ from ai.improvement import Improvement
 
 class ImprovementWithV(Improvement):
     def __init__(self, decay_rate, decay, decay_max, decay_min):
-        """A policy improvement method which uses the calculated v-values."""
+        """
+        A policy improvement method which uses the calculated v-values.
+        :param decay_rate: rate at which decay nears its minimum.
+        :param decay: starting decay.
+        :param decay_max: maximum decay.
+        :param decay_min: minimum decay.
+        """
         super(ImprovementWithV, self).__init__(decay_rate, decay, decay_max, decay_min)
 
     def improve(self):

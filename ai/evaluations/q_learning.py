@@ -5,7 +5,11 @@ from ai.evaluation import Evaluation
 
 class QLearning(Evaluation):
     def __init__(self, precision, learning_rate):
-        """A commonly used method to evaluate policy values that immediately calculates the q- and v-values."""
+        """
+        A commonly used method to evaluate policy values that immediately calculates the q- and v-values.
+        :param precision: not used in this method.
+        :param learning_rate: rate at which the utility values improve.
+        """
         super(QLearning, self).__init__(precision, learning_rate)
 
     def evaluate(self, percept):

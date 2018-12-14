@@ -2,9 +2,13 @@ import numpy as np
 
 
 class MDP(object):
-    """Markov Decision Process: table of data observed by the Agent."""
     def __init__(self, n_states, n_actions, discount):
-        """Markov Decision Process: table of data observed by the Agent."""
+        """
+        Markov Decision Process: table of data observed by the Agent.
+        :param n_states: amount of states.
+        :param n_actions: amount of actions.
+        :param discount: return value discount.
+        """
         self.__n_states = n_states
         self.__n_actions = n_actions
         self.__r = np.array([[.0 for _ in range(n_actions)] for _ in range(n_states)])
@@ -15,41 +19,58 @@ class MDP(object):
 
     @property
     def n_states(self):
-        """Returns the amount of states in the Environment."""
+        """
+        :return: the amount of states in the Environment.
+        """
         return self.__n_states
 
     @property
     def n_actions(self):
-        """Returns the amount of actions in the Environment."""
+        """
+        :return: the amount of actions in the Environment.
+        """
         return self.__n_actions
 
     @property
     def r(self):
-        """Returns the list of rewards per state-action in the Environment."""
+        """
+        :return: the list of rewards per state-action in the Environment.
+        """
         return self.__r
 
     @property
     def nsa(self):
-        """Returns the state-action frequencies."""
+        """
+        :return: the state-action frequencies.
+        """
         return self.__nsa
 
     @property
     def ntsa(self):
-        """Returns the state-action-nextstate frequencies."""
+        """
+        :return: the state-action-nextstate frequencies.
+        """
         return self.__ntsa
 
     @property
     def ptsa(self):
-        """Returns the state-action-nextstate possibilities."""
+        """
+        :return: the state-action-nextstate possibilities.
+        """
         return self.__ptsa
 
     @property
     def discount(self):
-        """Returns the return discount."""
+        """
+        :return: the return discount.
+        """
         return self.__discount
 
     def update(self, percept):
-        """Update the MDP table based on the given Percept."""
+        """
+        Update the MDP table based on the given Percept.
+        :param percept: percept used to update MDP.
+        """
         s = percept.prev_state
         a = percept.action
         s_ = percept.new_state

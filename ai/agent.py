@@ -3,8 +3,12 @@ from random import random
 
 class Agent(object):
     def __init__(self, environment, strategy):
-        """ The core for reinforcement learning. The agent "walks" through an environment and tries to learn the
-        best possible actions by applying its given learning strategy."""
+        """
+        The core for reinforcement learning. The agent "walks" through an environment and tries to learn the
+        best possible actions by applying its given learning strategy.
+        :param environment: the evinronment the agent has to learn.
+        :param strategy: strategy used to learn the environment.
+        """
         self.__environment = environment
         self.__strategy = strategy
         self.__policy = [[1. / self.environment.n_actions for _ in range(self.environment.n_actions)]
@@ -15,22 +19,31 @@ class Agent(object):
 
     @property
     def environment(self):
-        """Returns the environment the agent is learning."""
+        """
+        :return: the environment the agent is learning.
+        """
         return self.__environment
 
     @property
     def strategy(self):
-        """Returns the learning strategy used by the agent."""
+        """
+        :return: the learning strategy used by the agent.
+        """
         return self.__strategy
 
     @property
     def policy(self):
-        """Returns the policy used by the agent."""
+        """
+        :return: the policy used by the agent.
+        """
         return self.__policy
 
     def learn(self, n_episodes):
-        """Plays in the environment for n_episodes
-        and improves his policy."""
+        """
+        Plays in the environment for n_episodes
+        and improves his policy.
+        :param n_episodes: episodes to run.
+        """
         for n in range(n_episodes):
             print 'Episode ', n
             state = self.environment.reset()
@@ -44,7 +57,11 @@ class Agent(object):
                 final = percept.is_final
 
     def next_action(self, s):
-        """Choose the agent's next action through his policy."""
+        """
+        Choose the agent's next action through his policy.
+        :param s: the current state.
+        :return: the chosen action.
+        """
         rnd = random()
         prev = 0
         a = 0

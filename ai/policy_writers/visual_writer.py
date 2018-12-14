@@ -10,7 +10,10 @@ class VisualWriter(PolicyWriter):
 
     @classmethod
     def write(cls, policy):
-        """Draws the policy in a canvas."""
+        """
+        Draws the policy in a canvas.
+        :param policy: the agent's policy.
+        """
         # Create window
         top = Tkinter.Tk()
 
@@ -33,7 +36,11 @@ class VisualWriter(PolicyWriter):
 
     @classmethod
     def divide_area(cls, x):
-        """Divides an area in the most optimal height and width."""
+        """
+        Divides an area in the most optimal height and width.
+        :param x: area to be divided.
+        :return: height and width as tuple.
+        """
         denominators = []
         [x % i == 0 and denominators.append(i) for i in range(2, x / 2 + 1)]
         a = denominators[len(denominators) / 2] if len(denominators) % 2 != 0 \

@@ -1,7 +1,13 @@
 class Percept:
-    """The information given by the Environment upon taking an action."""
     def __init__(self, prev_state, action, reward, new_state, final):
-        """The information given by the Environment upon taking an action."""
+        """
+        The information given by the Environment upon taking an action.
+        :param prev_state: the previous state.
+        :param action: the taken action.
+        :param reward: the given reward.
+        :param new_state: the new state.
+        :param final: is it a final state?
+        """
         self.__s = prev_state
         self.__a = action
         self.__r = reward
@@ -10,27 +16,37 @@ class Percept:
 
     @property
     def prev_state(self):
-        """Returns the state before the action was taken."""
+        """
+        :return: the state before the action was taken.
+        """
         return self.__s
 
     @property
     def action(self):
-        """Returns the action that was taken from the previous state."""
+        """
+        :return: the action that was taken from the previous state.
+        """
         return self.__a
 
     @property
     def reward(self):
-        """Returns the reward given for taking the action from the previous state."""
+        """
+        :return: the reward given for taking the action from the previous state.
+        """
         return self.__r
 
     @property
     def new_state(self):
-        """Returns the new state after taking action."""
+        """
+        :return: the new state after taking action.
+        """
         return self.__s_
 
     @property
     def is_final(self):
-        """Returns true if the action led to a final state, otherwise it returns false."""
+        """
+        :return: true if the action led to a final state, otherwise false.
+        """
         return self.__final
 
     def __str__(self):

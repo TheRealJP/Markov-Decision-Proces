@@ -6,13 +6,18 @@ from ai.percept import Percept
 
 class OpenAIGym(Environment):
     def __init__(self, env_name):
-        """A wrapper for the OpenAI Gym Environments."""
+        """
+        A wrapper for the OpenAI Gym Environments.
+        :param env_name: name of the OpenAI Gym environment.
+        """
         self.__env = gym.make(env_name)
         self.__cur_state = self.env.reset()
 
     @property
     def env(self):
-        """Returns the OpenAI Gym Environment."""
+        """
+        :return: the OpenAI Gym Environment.
+        """
         return self.__env
 
     @property
