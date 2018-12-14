@@ -14,5 +14,5 @@ class CsvWriter(PolicyWriter):
             for a in range(len(policy[s])):
                 output += f.format(s, a, round(policy[s][a], 2))
 
-        with open('../policy.csv', 'w') as f:
+        with open('../files/policy.csv', 'w') as f:
             [f.write(l) for l in output]

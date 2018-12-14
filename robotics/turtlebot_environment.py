@@ -41,8 +41,8 @@ class TurtleBot(Environment):
         1: East
         2: South
         3: West
-        :param action:
-        :return:
+        :param action: action to be performed
+        :return: Percept
         """
         # TODO
         # moving forward 1m
