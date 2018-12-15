@@ -6,8 +6,7 @@ from robotics.policy_writers.visual_writer_optimal_path_csv import VisualWriterO
 """ test implementation for the repositioning & rotation of our robot"""
 
 
-# roslaunch turtlebot_gazebo turtlebot_world.launch
-# world_file:=/home/jonathanpeers/jonathanp627@gmail.com/Informatica/INF3/Robotics_AI_Project_2018-2019/sim.world
+# roslaunch turtlebot_gazebo turtlebot_world.launch world_file:=beginner_tutorials/worlds/static_boxes
 
 def print_env_sim(a, rr, df, cs):
     print'current direction:', df, \
