@@ -1,11 +1,13 @@
-from robotics.environment.agent_environment import AgentEnvironment
+import sys
+
+from beginner_tutorials.scripts.agent_environment import AgentEnvironment
 from robotics.policy_writers.visual_writer_optimal_path_csv import VisualWriterOptimalPathCSV
 
 """ test implementation for the repositioning & rotation of our robot"""
 
 
-# roslaunch turtlebot_gazebo turtlebot_world.launch world_
-# file:=/home/jonathanpeers/jonathanp627@gmail.com/Informatica/INF3/Robotics_AI_Project_2018-2019/sim.world
+# roslaunch turtlebot_gazebo turtlebot_world.launch
+# world_file:=/home/jonathanpeers/jonathanp627@gmail.com/Informatica/INF3/Robotics_AI_Project_2018-2019/sim.world
 
 def print_env_sim(a, rr, df, cs):
     print'current direction:', df, \
@@ -45,4 +47,7 @@ def run():  # todo: implementing this into agent_dynamics class
 
 
 if __name__ == '__main__':
+    for i in range(len(sys.path)):
+        print sys.path[i]
+
     run()
