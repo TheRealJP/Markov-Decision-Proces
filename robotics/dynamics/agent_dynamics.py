@@ -9,9 +9,11 @@ from math import sqrt
 
 from roslib import message
 from nav_msgs.msg import Odometry as odom
+from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 from robotics.environment.agent_environment import AgentEnvironment
 
@@ -62,18 +64,23 @@ class Robot:
         # Parameters
         self.__threshold = threshold
         self.__linear_speed = linear_speed
+        # Suggest using a low angular speed for turning with odometry as speed will be
+        # designated from code and adjusted. Maybe not necessary
         self.__angular_speed = angular_speed
         self.__move_cmd = Twist()
         self.__rate = rate
         self.__ticks = 0
         self.__current_tick = 0
         self.__turning = False
+        self.__roll = self.__pitch = self.__yaw = 0.0
+        self.__turn_precision = 0.045
         rospy.Rate(rate)
 
         # Subscriptions
         self.__scanner = rospy.Subscriber('/scan', LaserScan, self.set_cmd_vel)
         rospy.loginfo('wait')
         rospy.wait_for_message('/scan', LaserScan)
+        self.__odom_subscriber = rospy.Subscriber('/odom', Odometry, self.set_cmd_vel)
 
         # Spin
         rospy.loginfo('spin')
@@ -88,6 +95,12 @@ class Robot:
         rospy.loginfo('Turning: %s; Ticks: %s / %s',
                       str(self.__turning), str(self.__current_tick), str(self.__ticks))
         move = self.scan(msg)
+
+        if msg.header.frame_id == "odom":
+            orientation_q = msg.pose.pose.orientation
+            orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
+            self.__roll, self.__pitch, self.__yaw = euler_from_quaternion(orientation_list)
+
 
         # Move forward if possible
         if move and not self.__turning:
@@ -104,32 +117,37 @@ class Robot:
 
         # Else turn
         else:
+            # Eigenlijk moet het hier stoppen
             rospy.loginfo('turn')
             self.__move_cmd.linear.x = 0
             self.__move_cmd.angular.z = self.__angular_speed
             self.turn()
 
     #    signal that you have arrived (something like stopped its ticks)
+    # now improved with more precise turning using odometry
     def turn(self):
-        if self.__current_tick < 1:
 
-            # returns radians to be turned with a given action
-            angle = self.robot_env.rotate(self.action)
+        target_angle = self.robot_env.rotate(self.action)
+        rospy.loginfo('turning %s radians (90 degrees)', target_angle)
 
-            rospy.loginfo('turning %s radians (90 degrees)', angle)
-            angular_duration = angle / self.__angular_speed
-            self.__ticks = int(angular_duration * self.__rate)
+        difference = target_angle - self.__yaw
+        self.__angular_speed = abs(difference)
+
+        if abs(difference) > self.__turn_precision:
+            rospy.loginfo("Turning")
             self.__turning = True
-            self.__current_tick = 1
-        elif self.__current_tick >= self.__ticks:
-            self.__current_tick = 0
-            self.__turning = False
-        else:
-            angle = pi / 2
-            rospy.loginfo('turning %s radians (90 degrees)', angle)
-            rospy.loginfo('turning at %s radians / s', str(self.__move_cmd.angular.z))
+            self.__move_cmd.angular.z = self.__angular_speed
+            # To make sure the robot won't be moving forward while turning!
+            self.__move_cmd.linear.x = 0
             self.__cmd_vel.publish(self.__move_cmd)
-            self.__current_tick += 1
+
+        else:
+            rospy.loginfo("Finished turning!")
+            self.__turning = False
+            self.__move_cmd.angular.z = 0
+            # self.__move_cmd.linear.x = 0
+            self.__cmd_vel.publish(self.__move_cmd)
+
 
     def scan(self, msg):
         dist = avg_minimum(msg.ranges, len(msg.ranges) / 10)
