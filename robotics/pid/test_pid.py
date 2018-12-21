@@ -8,7 +8,7 @@ from scipy.interpolate import make_interp_spline  # Switched to BSpline
 from pid import PID
 
 
-def test_pid(P=0.2, I=0.0, D=0.0, L=100):
+def test_pid():
     """Self-test PID class
     .. note::
         ...
@@ -22,6 +22,11 @@ def test_pid(P=0.2, I=0.0, D=0.0, L=100):
             time.sleep(0.02)
         ---
     """
+    P = 1.
+    I = 1.
+    D = .0001
+    L = 50
+
     pid = PID(P, I, D)
 
     pid.set_point = 0.0
@@ -67,7 +72,3 @@ def test_pid(P=0.2, I=0.0, D=0.0, L=100):
 
     plt.grid(True)
     plt.show()
-
-
-if __name__ == '__main__':
-    test_pid(1., 3, 0.0005, L=50)
