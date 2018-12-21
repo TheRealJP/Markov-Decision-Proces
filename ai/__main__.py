@@ -13,14 +13,16 @@ from ai.strategy import Strategy
 
 
 def run():
-    precision = .1E-9
-    discount = .99
-    learning_rate = .75
-    decay_rate = 0.1E-3
-    decay = 1.
-    decay_max = 1.
-    decay_min = .01
-    episodes = 100
+    precision = .1E-3  # value iteration
+
+    discount = .50
+    learning_rate = .50
+    decay_rate = 0.01  # verminder rate met deze waarde
+    decay = 1.  # past aan
+    decay_max = 1.  # beginwaarde
+    decay_min = .1  # needs to be on .1
+
+    episodes = 1000
 
     env = OpenAIGym('FrozenLake-v0')
     evaluation = QLearning(precision, learning_rate)
@@ -32,6 +34,7 @@ def run():
     CmdWriter.write(agent.policy)
     CsvWriter.write(agent.policy)
     VisualWriter.write(agent.policy)
+    # print str.format('%s %s \n%s\n%s %s %s %s \n%s')
 
 
 if __name__ == '__main__':

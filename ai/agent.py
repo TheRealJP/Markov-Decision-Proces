@@ -3,12 +3,14 @@ from random import random
 
 class Agent(object):
     def __init__(self, environment, strategy):
+
         """
         The core for reinforcement learning. The agent "walks" through an environment and tries to learn the
         best possible actions by applying its given learning strategy.
         :param environment: the evinronment the agent has to learn.
         :param strategy: strategy used to learn the environment.
         """
+
         self.__environment = environment
         self.__strategy = strategy
         self.__policy = [[1. / self.environment.n_actions for _ in range(self.environment.n_actions)]
@@ -51,6 +53,7 @@ class Agent(object):
             while not final:
                 action = self.next_action(state)
                 percept = self.environment.step(action)
+
                 # improve policy
                 self.__policy = self.strategy.learn(percept)
                 state = percept.new_state
