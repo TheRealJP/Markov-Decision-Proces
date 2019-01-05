@@ -18,16 +18,18 @@ def run():
     # decay_min = .01
     # episodes = 100
 
-    precision = .1E-9
-    discount = .30
-
-    learning_rate = .8
-    decay_rate = 0.1E-5
-
+    precision = .1E-10
+    discount = .25
+    learning_rate = .75  # .8
+    decay_rate = 0.1E-4 #0.1E-5
     decay = 1.
     decay_max = 1.
     decay_min = .01
     episodes = 2000
+
+
+    #episodes 2000
+    # lagere decay rate, lage discount , lagere episodes
 
     env = OpenAIGym('FrozenLake-v0')
     evaluation = QLearning(precision, learning_rate)
