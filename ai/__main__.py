@@ -9,14 +9,25 @@ from ai.strategy import Strategy
 
 
 def run():
+    # precision = .1E-9
+    # discount = .99
+    # learning_rate = .8
+    # decay_rate = 0.1E-3
+    # decay = 1.
+    # decay_max = 1.
+    # decay_min = .01
+    # episodes = 100
+
     precision = .1E-9
-    discount = .99
+    discount = .30
+
     learning_rate = .8
-    decay_rate = 0.1E-3
+    decay_rate = 0.1E-5
+
     decay = 1.
     decay_max = 1.
     decay_min = .01
-    episodes = 100
+    episodes = 2000
 
     env = OpenAIGym('FrozenLake-v0')
     evaluation = QLearning(precision, learning_rate)
