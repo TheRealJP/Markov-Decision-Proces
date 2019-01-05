@@ -2,9 +2,14 @@ from math import exp
 
 
 class Improvement(object):
-    """The method used to improve the Agent's policy values."""
     def __init__(self, decay_rate, decay, decay_max, decay_min):
-        """The method used to improve the Agent's policy values."""
+        """
+        The method used to improve the Agent's policy values.
+        :param decay_rate: rate at which decay nears its minimum.
+        :param decay: starting decay.
+        :param decay_max: maximum decay.
+        :param decay_min: minimum decay.
+        """
         self.__mdp = None
         self.__policy = None
         self.__v = None
@@ -17,58 +22,85 @@ class Improvement(object):
 
     @property
     def mdp(self):
-        """Returns the Markov Decision Process table, a table that lists the Agent's observations."""
+        """
+        :return: the Markov Decision Process table, a table that lists the Agent's observations.
+        """
         return self.__mdp
 
     @property
     def policy(self):
-        """Returns the policy used by the agent."""
+        """
+        :return: the policy used by the agent.
+        """
         return self.__policy
 
     @property
     def v(self):
-        """Returns the v-values list."""
+        """
+        :return: the v-values list.
+        """
         return self.__v
 
     @property
     def q(self):
-        """Returns the q-values list."""
+        """
+        :return: the q-values list.
+        """
         return self.__q
 
     @property
     def t(self):
-        """Returns the current iteration: t"""
+        """
+        :return: the current iteration.
+        """
         return self.__t
 
     @property
     def decay_rate(self):
-        """Returns the decay rate."""
+        """
+        :return: the decay rate.
+        """
         return self.__decay_rate
 
     @property
     def decay(self):
-        """Returns the current decay value."""
+        """
+        :return: the current decay value.
+        """
         return self.__decay
 
     @property
     def decay_max(self):
-        """Returns the maximum decay value."""
+        """
+        :return: the maximum decay value.
+        """
         return self.__decay_max
 
     @property
     def decay_min(self):
-        """Returns the minimum decay value."""
+        """
+        :return: the minimum decay value.
+        """
         return self.__decay_min
 
     def set(self, mdp, policy, v, q):
-        """Initialize the given values."""
+        """
+        Initialize the given values.
+        :param mdp: agent's MDP.
+        :param policy: agent's policy.
+        :param v: v-values list.
+        :param q: q-values list.
+        """
         self.__mdp = mdp
         self.__policy = policy
         self.__v = v
         self.__q = q
 
     def improve(self):
-        """Apply the policy improvement."""
+        """
+        Apply the policy improvement.
+        :return: the new policy.
+        """
         self.__decay = self.decay_min + (self.decay_max - self.decay_min) * exp(-self.decay_rate * self.t)
         self.__t += 1
         return self.__policy

@@ -6,7 +6,11 @@ from ai.evaluation import Evaluation
 
 class ValueIteration(Evaluation):
     def __init__(self, precision, learning_rate):
-        """A commonly used method to evaluate policy values that dynamically calculates the v-values."""
+        """
+        A commonly used method to evaluate policy values that dynamically calculates the v-values.
+        :param precision: precision used for comparing float numbers.
+        :param learning_rate: not used in this method.
+        """
         super(ValueIteration, self).__init__(precision, learning_rate)
 
     def evaluate(self, percept):
@@ -22,7 +26,11 @@ class ValueIteration(Evaluation):
                 delta = max(delta, abs(u - self.v[s]))
 
     def value_function(self, s):
-        """Calculates the q-values of a certain state."""
+        """
+        Calculates the q-values of a certain state.
+        :param s: the state of which you need the utility values.
+        :return: list of utility values per action for the given state.
+        """
         return [self.policy[s][a] *
                 sum([self.mdp.ptsa[s][a][s_] * (self.mdp.r[s][a] + self.mdp.discount * self.v[s_])
                      for s_ in range(self.mdp.n_states)]) for a in range(self.mdp.n_actions)]

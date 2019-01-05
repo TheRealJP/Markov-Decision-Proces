@@ -15,8 +15,8 @@ def run():
     decay_rate = 0.1E-3
     decay = 1.
     decay_max = 1.
-    decay_min = .1E-2
-    episodes = 10000
+    decay_min = .01
+    episodes = 100
 
     env = OpenAIGym('FrozenLake-v0')
     evaluation = QLearning(precision, learning_rate)
@@ -26,9 +26,8 @@ def run():
     agent.learn(episodes)
 
     CmdWriter.write(agent.policy)
-
-    VisualWriter.write(agent.policy)
     CsvWriter.write(agent.policy)
+    VisualWriter.write(agent.policy)
 
 
 if __name__ == '__main__':

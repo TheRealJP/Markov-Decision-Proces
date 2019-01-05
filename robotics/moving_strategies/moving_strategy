@@ -1,0 +1,8 @@
+class MovingStrategy:
+    def move_forward(self, meters):
+        """
+        Make the TurtleBot move forward a set distance.
+        :param meters: distance to travel in meters.
+        """
+        # TODO
+        raise NotImplementedError()
