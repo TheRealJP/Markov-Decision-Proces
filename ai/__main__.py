@@ -22,6 +22,7 @@ def run():
 
     precision = .1E-10
     discount = .25
+    # controls how much q value will be uppdated
     learning_rate = .75  # .8
     decay_rate = 0.1E-4  # 0.1E-5
     decay = 1.

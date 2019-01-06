@@ -1,18 +1,11 @@
 import unittest
 from numpy import amax
-
-from ai.evaluation import Evaluation
-from ai.evaluations.q_learning import QLearning
-from ai.mdp import MDP
-
 from ai.percept import Percept
 
 
-# test what an incoming percept does
-# evaluates the values in the array
-# strategy
 class TestQLearning(unittest.TestCase):
 
+    # initialises variables needed in the test(s)
     def setUp(self):
         # list of q values
         self.q = [[1.961001767322039, 1.9510152513634005, 1.9451277663886386, 1.9401871789205922],
@@ -57,36 +50,44 @@ class TestQLearning(unittest.TestCase):
                   [0., 0., 0., 0.]]
 
         # percept mock (hier mee spelen om andere resultaten te krijgen qua q value)
-        self.percept = Percept(prev_state=1, action=1, reward=0, new_state=5, final=False)
+        self.percept = Percept(prev_state=5, action=0, reward=1, new_state=6, final=False)
 
         # mdp mock
-        self.n_states = 15
+        self.n_states = 16
         self.n_actions = 4
         self.discount = .25
         self.learning_rate = 0.75
 
-    # this test mocks the evaluate(self,percept) function
-    # comparison of old vs new q value given a new percept enters the evaluate(self,percept) function
+    # this test mocks the evaluate(self,percept) method
+    # comparison of old vs new q value given a new percept enters the evaluate(self,percept) method
     def test_evaluate_policy_values(self):
         s = self.percept.prev_state
         a = self.percept.action
         s_ = self.percept.new_state
 
         old_q_value = self.q[s][a]
-        print 'state and action in q before incoming percept:', old_q_value
-        self.q[s][a] += self.learning_rate * (self.r[s][a] +
-                                              self.discount *
-                                              amax([self.q[s_][a_] -
-                                                    self.q[s][a]
+        print 'old q value for state ', s, 'and action ', a, ' before incoming percept:', old_q_value
+        # Qlearning evaluation
+        self.q[s][a] += self.learning_rate * (self.r[s][a] + self.discount *
+                                              amax([self.q[s_][a_] - self.q[s][a]
                                                     for a_ in range(self.n_actions)]))
-
-        for s in range(self.n_states):
-            self.v[s] = amax(self.q[s])
-
         new_q_value = self.q[s][a]
-        print 'state and action in q after incoming percept:', new_q_value
+        print 'new q value for state ', s, 'and action ', a, ' after incoming percept:', new_q_value
 
-        # actual test
+        # update v value with highest q value in the current state (prev_state)
+        if amax(self.q[s]) not in self.v:
+            print 'prev_state to update:', s, \
+                '| old v value', self.v[s], \
+                '| max q value to replace old v value: ', amax(self.q[s])
+
+        old_v = self.v[s]
+        self.v[s] = amax(self.q[s])
+        new_v = self.v[s]
+        print 'new v value for state', s, ' is: ', new_v
+
+        # actual tests
+        self.assertIsNotNone((old_v, new_v, old_q_value, new_q_value))
+        self.assertFalse(old_v is new_v)
         self.assertFalse(old_q_value is new_q_value)
 
 

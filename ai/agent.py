@@ -50,7 +50,6 @@ class Agent(object):
             print('Episode ', n)
             state = self.environment.reset()
             final = False
-            print self.strategy.mdp.r
             while not final:
                 action = self.next_action(state)
                 percept = self.environment.step(action)
