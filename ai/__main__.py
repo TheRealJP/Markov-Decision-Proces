@@ -41,8 +41,8 @@ def run():
     agent.learn(episodes)
 
     CmdWriter.write(agent.policy)
-    # CsvWriter.write(agent.policy)
-    # VisualWriter.write(agent.policy)
+    CsvWriter.write(agent.policy)
+    VisualWriter.write(agent.policy)
 
 
 if __name__ == '__main__':
