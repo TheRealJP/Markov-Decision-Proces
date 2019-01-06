@@ -2,7 +2,7 @@ from time import time
 
 
 class PID(object):
-    def __init__(self, p=.2, i=.0, d=.0):
+    def __init__(self, p, i, d):
         """
         PID controller
         :param p: proportional gain

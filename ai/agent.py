@@ -47,7 +47,7 @@ class Agent(object):
         :param n_episodes: episodes to run.
         """
         for n in range(n_episodes):
-            print 'Episode ', n
+            print('Episode ', n)
             state = self.environment.reset()
             final = False
             while not final:
