@@ -1,5 +1,7 @@
 import unittest
 from numpy import amax
+
+from ai.evaluations import q_learning
 from ai.percept import Percept
 
 
