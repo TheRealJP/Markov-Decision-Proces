@@ -33,5 +33,6 @@ class MonteCarlo(Evaluation):
                                                       (r + self.mdp.discount * numpy.amax(
                                                           [self.q[s_][a_] for a_ in range(self.mdp.n_actions)])))
             self.__P = []
+
         for s in range(self.mdp.n_states):
             self.v[s] = numpy.amax(self.q[s])

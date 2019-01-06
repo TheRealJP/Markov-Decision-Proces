@@ -16,6 +16,7 @@ class QLearning(Evaluation):
         s = percept.prev_state
         a = percept.action
         s_ = percept.new_state
+
         self.q[s][a] += self.learning_rate * (self.mdp.r[s][a] + self.mdp.discount *
                                               amax(
                                                   [self.q[s_][a_] - self.q[s][a] for a_ in range(self.mdp.n_actions)]))

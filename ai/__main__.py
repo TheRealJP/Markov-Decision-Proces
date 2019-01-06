@@ -1,6 +1,8 @@
 from ai.agent import Agent
 from ai.environments.openai import OpenAIGym
 from ai.evaluations.q_learning import QLearning
+from ai.evaluations.monte_carlo import MonteCarlo
+from ai.evaluations.value_iteration import ValueIteration
 from ai.improvements.with_q import ImprovementWithQ
 from ai.policy_writers.cmd_writer import CmdWriter
 from ai.policy_writers.csv_writer import CsvWriter
@@ -20,15 +22,15 @@ def run():
 
     precision = .1E-10
     discount = .25
+    # controls how much q value will be uppdated
     learning_rate = .75  # .8
-    decay_rate = 0.1E-4 #0.1E-5
+    decay_rate = 0.1E-4  # 0.1E-5
     decay = 1.
     decay_max = 1.
     decay_min = .01
     episodes = 2000
 
-
-    #episodes 2000
+    # episodes 2000
     # lagere decay rate, lage discount , lagere episodes
 
     env = OpenAIGym('FrozenLake-v0')
@@ -39,8 +41,8 @@ def run():
     agent.learn(episodes)
 
     CmdWriter.write(agent.policy)
-    CsvWriter.write(agent.policy)
-    VisualWriter.write(agent.policy)
+    # CsvWriter.write(agent.policy)
+    # VisualWriter.write(agent.policy)
 
 
 if __name__ == '__main__':
