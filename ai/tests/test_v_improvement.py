@@ -1,5 +1,5 @@
 import unittest
-from numpy import amax
+from numpy import amax, argmax, exp
 from ai.percept import Percept
 
 
@@ -122,18 +122,40 @@ class TestVImprovement(unittest.TestCase):
 
         # decay for improvement
         self.decay = 1.
-        self.decay_min = 1.
+        self.decay_min = .01
         self.decay_max = 1.
-        self.decay_rate = 1.
+        self.decay_rate = 0.1E-4
+        self.t = 5
 
-    # this test mocks the evaluate(self,percept) method
-    # comparison of old vs new q value given a new percept enters the evaluate(self,percept) method
     def test_improve_with_v(self):
+        s = 5
+        a = 2
+        a_star = argmax(
+            [sum([self.ptsa[s][a][s_] * (self.r[s][a] + self.discount * self.v[s_])
+                  for s_ in range(self.n_states)]) for a in range(self.n_actions)])
+
+        old_sa_policy = self.policy[s][a]
+        self.policy[s][a] = 1. * self.decay / self.n_actions
+        if a_star == a:
+            self.policy[s][a] += 1 - self.decay
+        new_sa_policy = self.policy[s][a]
 
         # improve policy
-        self.__decay = self.decay_min + (self.decay_max - self.decay_min) * exp(-self.decay_rate * self.t)
-        self.__t += 1
-        return self.__policy
+        old_decay = self.decay
+        self.decay = self.decay_min + (self.decay_max - self.decay_min) * exp(-self.decay_rate * self.t)
+        self.t += 1
+        new_decay = self.decay
+
+        # some logs
+        print 'a* & a ==', a_star
+        print 'policy value before improvement:', old_sa_policy, '| after improvement:', new_sa_policy
+        print 'decay:', old_decay, '| updated decay:', new_decay
+
+        # actual tests
+
+        self.assertIsNotNone((new_sa_policy, old_sa_policy, old_decay, new_decay))
+        self.assertFalse(new_sa_policy is old_sa_policy)
+        self.assertFalse(new_decay is old_decay)
 
 
 if __name__ == '__main__':
