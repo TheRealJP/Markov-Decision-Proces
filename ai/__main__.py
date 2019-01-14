@@ -20,15 +20,26 @@ def run():
     # decay_min = .01
     # episodes = 100
 
+    # alleen gebruikt in value iteration evaluatie
     precision = .1E-10
-    discount = .25
+
+    # controleert value van toekomstige waarde
+    # discount 0 "i only care about immediate rewards", bigger discount farther rewards
+    discount = .99  # .5.6_
+
     # controls how much q value will be uppdated
-    learning_rate = .75  # .8
-    decay_rate = 0.1E-4  # 0.1E-5
+    # niet te groot gaat constant oscileren rond het minimum
+    # te klein , te veel stappen nodig
+    learning_rate = .5  # .7.8
+
+    # helpt bij het afbouwen van fluctuaties in het aanpassen van de policy
+    decay_rate = 0.00005  # 0.1E-5  # 0.1E-5
     decay = 1.
     decay_max = 1.
     decay_min = .01
-    episodes = 2000
+
+    # aantal keer leren
+    episodes = 3000
 
     # episodes 2000
     # lagere decay rate, lage discount , lagere episodes
