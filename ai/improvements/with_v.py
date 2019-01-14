@@ -15,7 +15,10 @@ class ImprovementWithV(Improvement):
         super(ImprovementWithV, self).__init__(decay_rate, decay, decay_max, decay_min)
 
     def improve(self):
+
         for s in range(self.mdp.n_states):
+            # action van de grootste som die bestaat uit elementen van
+            # ptsa * v(s)
             a_star = argmax(
                 [sum([self.mdp.ptsa[s][a][s_] * (self.mdp.r[s][a] + self.mdp.discount * self.v[s_])
                       for s_ in range(self.mdp.n_states)]) for a in range(self.mdp.n_actions)])

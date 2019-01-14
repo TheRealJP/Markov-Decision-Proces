@@ -53,6 +53,7 @@ class Agent(object):
             while not final:
                 action = self.next_action(state)
                 percept = self.environment.step(action)
+
                 # improve policy
                 self.__policy = self.strategy.learn(percept)
                 state = percept.new_state

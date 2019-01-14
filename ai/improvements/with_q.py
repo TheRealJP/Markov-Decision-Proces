@@ -17,11 +17,19 @@ class ImprovementWithQ(Improvement):
 
     def improve(self):
         for s in range(self.mdp.n_states):
+            # action van de max utility value
             a_star = argmax([self.q[s][a] for a in range(self.mdp.n_actions)])
 
+            # we gaan de policy waarde voor elke a in een s updaten
             for a in range(self.mdp.n_actions):
                 self.policy[s][a] = 1. * self.decay / self.mdp.n_actions
 
+                # als de action met de max qvalue in een state gelijk is aan action_n
+                # dan verhoven we de policy value voor een s|a met 1 - epsilon(t) toe,
+                # dit zorgt ervoor dat deze actie meer genomen zal worden
+                # hoe verder we gaan hoe minder onze policyvalue verhoogt doordat deze vermindert in de tijd
                 if a_star == a:
+                    # bij elke stap verlaagd decay waarde adhv decay rate
                     self.policy[s][a] += 1 - self.decay
+
         return super(ImprovementWithQ, self).improve()

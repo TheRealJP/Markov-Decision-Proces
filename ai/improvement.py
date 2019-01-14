@@ -99,6 +99,9 @@ class Improvement(object):
     def improve(self):
         """
         Apply the policy improvement.
+        t: time
+        decay: epsilon
+        decay rate: lambda
         :return: the new policy.
         """
         self.__decay = self.decay_min + (self.decay_max - self.decay_min) * exp(-self.decay_rate * self.t)
