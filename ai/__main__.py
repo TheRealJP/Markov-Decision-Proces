@@ -29,6 +29,7 @@ def run():
     # te klein , te veel stappen nodig
     learning_rate = .8
 
+    # zorgt voor exploration/exploitation, meer episodes --> lagere decay waarde --> meer exploitation
     # zorgt ervoor dat er meer en meer de juiste actie wordt gekozen (1 - decay wordt opgeteld bij policy(s,a))
     # helpt bij het afbouwen van fluctuaties in het aanpassen van de policy
     # grotere decay rate meer 0
