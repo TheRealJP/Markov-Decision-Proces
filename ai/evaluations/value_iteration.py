@@ -20,14 +20,12 @@ class ValueIteration(Evaluation):
         while delta > self.precision * r_max * (1 - self.mdp.discount) / self.mdp.discount:
             delta = 0
             for s in range(self.mdp.n_states):
-
                 # old utility value
                 u = self.v[s]
 
-                # actie met hoogste utility value
+                # q values
                 self.q[s] = self.value_function(s)
-
-                # new utility value
+                # new utility value (max(q_values))
                 self.v[s] = max(self.q[s])
 
                 # delta updaten

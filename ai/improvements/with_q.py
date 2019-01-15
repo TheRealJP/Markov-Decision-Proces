@@ -17,6 +17,7 @@ class ImprovementWithQ(Improvement):
 
     def improve(self):
         for s in range(self.mdp.n_states):
+            # voor elke state kijken naar de hoogste q waarde / v(s)
             # action van de max utility value
             a_star = argmax([self.q[s][a] for a in range(self.mdp.n_actions)])
 
