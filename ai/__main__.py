@@ -24,21 +24,25 @@ def run():
     # controleert value van toekomstige waarde
     # discount 0 "i only care about immediate rewards", bigger discount farther rewards
     # succesvolle waarden liggen tussen 0.9 - 0.99
-    discount = .99  # .5.6_
+    discount = .90  # .5.6_
 
     # controls how much q value will be uppdated
     # niet te groot gaat constant oscileren rond het minimum
     # te klein , te veel stappen nodig
-    learning_rate = .75  # .7.8
+    learning_rate = .5  # .7.8
 
+    # zorgt ervoor dat er meer en meer de juiste actie wordt gekozen (1 - decay wordt opgeteld bij policy(s,a))
     # helpt bij het afbouwen van fluctuaties in het aanpassen van de policy
-    decay_rate = 0.00005  # 0.1E-5  # 0.1E-5
+    # grotere decay rate meer 0
+    # te laag --> te weinig onderscheiding tss policy values
+    # te hoog -->  meer resources nodig om te berekenen, weinig value...
+    decay_rate = 0.0001  # 0.1E-5  # 0.1E-5
     decay = 1.
     decay_max = 1.
     decay_min = .01
 
     # aantal keer leren
-    episodes = 3000
+    episodes = 10000
     # lagere decay rate, lage discount , lagere episodes
 
     env = OpenAIGym('FrozenLake-v0')
