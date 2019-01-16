@@ -38,6 +38,7 @@ class MDP(object):
         """
         return self.__r
 
+    # hoeveel keer heb ik deze actie uitgevoerd in deze state
     @property
     def nsa(self):
         """
@@ -45,6 +46,8 @@ class MDP(object):
         """
         return self.__nsa
 
+    # hoeveel keer heb ik deze actie uitgevoerd in deze state
+    # waardoor ik in een andere bepaalde state terecht ben geraakt
     @property
     def ntsa(self):
         """
@@ -52,6 +55,7 @@ class MDP(object):
         """
         return self.__ntsa
 
+    # houd de kans bij van het uitvoeren van een actie waardoor ik naar een andere bepaalde state zou gaan
     @property
     def ptsa(self):
         """

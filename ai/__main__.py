@@ -27,6 +27,7 @@ def run():
     # controls how much q value will be uppdated
     # niet te groot gaat constant oscileren rond het minimum
     # te klein , te veel stappen nodig
+    # moet convergen in het mimimum punt
     learning_rate = .8
 
     # zorgt voor exploration/exploitation, meer episodes --> lagere decay waarde --> meer exploitation

@@ -3,6 +3,10 @@ from numpy import amax
 from ai.evaluation import Evaluation
 
 
+# leert uit andere onvolledige episodes
+# TD learning is model vrij, geen kennis van mdp transities of rewards
+
+
 class QLearning(Evaluation):
     def __init__(self, precision, learning_rate):
         """

@@ -4,6 +4,15 @@ from sys import maxsize
 from ai.evaluation import Evaluation
 
 
+# DP solves for the optimal policy or value function by recursion.
+# It requires knowledge of the markov decision process (MDP) or a model of the world
+# so that the recursions can be carried out.
+# It is typically lumped under "planning" rather than "learning",
+# in that you already know the MDP, and just need to figure out what to do (optimally).
+
+# TD is model-free: it doesn't require knowledge of a model of the world.
+# It is iterative, and simulation based, and learns by bootstrapping, i.e.
+
 class ValueIteration(Evaluation):
     def __init__(self, precision, learning_rate):
         """
