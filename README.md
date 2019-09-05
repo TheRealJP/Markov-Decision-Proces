@@ -1,7 +1,7 @@
 # Markov Decision Proces 
 
 ## About
-The robotics code can be found in my "AI-Driven-Robot-Simulation" repo.
+The robotics code can be found in my "[AI-Driven-Robot-Simulation](https://github.com/TheRealJonathanPeers/AI-Driven-Robot-Simulation)" repo.
 
 Used Markov Decision Proces (MDP) to solve the Open AI Gym frozenlake problem (https://gym.openai.com/envs/FrozenLake-v0/).
 The trained model was used to generate a route trough the maze. 
